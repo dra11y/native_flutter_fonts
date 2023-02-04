@@ -15,7 +15,6 @@ struct FontManifestEntry: Decodable {
         let asset: String
         let weight: Int?
         let style: String?
-        let isItalic: Bool?
     }
 }
 
