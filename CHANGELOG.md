@@ -1,3 +1,7 @@
+## 1.0.3
+
+* Change definition of "bold" to weight 700 instead of 500.
+
 ## 1.0.2
 
 * Update README for Android.

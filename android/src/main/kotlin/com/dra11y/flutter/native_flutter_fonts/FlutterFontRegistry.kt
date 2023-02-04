@@ -15,7 +15,7 @@ fun Typeface.withWeight(weight: Int): Typeface =
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
         Typeface.create(this, weight, this.isItalic)
     } else {
-        Typeface.create(this, if (weight >= 500) Typeface.BOLD else Typeface.NORMAL)
+        Typeface.create(this, if (weight >= 700) Typeface.BOLD else Typeface.NORMAL)
     }
 
 fun Typeface.withItalic(isItalic: Boolean): Typeface =
@@ -62,7 +62,7 @@ class FlutterFontRegistry {
                         isItalic,
                     )
                 else {
-                    (if (weight >= 500) Typeface.DEFAULT_BOLD else Typeface.DEFAULT)
+                    (if (weight >= 700) Typeface.DEFAULT_BOLD else Typeface.DEFAULT)
                         .withWeight(weight)
                         .withItalic(isItalic)
                 }
@@ -77,7 +77,7 @@ class FlutterFontRegistry {
                 error("FlutterFontRegistry has not been initialized!")
             }
 
-            val isBold = weight >= 500
+            val isBold = weight >= 700
             val typeface = family?.let { name ->
                 registeredTypefaces[TypefaceKey(name, isBold, isItalic)]
                     ?: registeredTypefaces[TypefaceKey(name, !isBold, isItalic)]
