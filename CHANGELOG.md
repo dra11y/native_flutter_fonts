@@ -1,3 +1,7 @@
+## 1.0.4
+
+* Fix weight and italic resolution.
+
 ## 1.0.3
 
 * Change definition of "bold" to weight 700 instead of 500.

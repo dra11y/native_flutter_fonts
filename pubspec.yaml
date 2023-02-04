@@ -1,6 +1,6 @@
 name: native_flutter_fonts
 description: A Flutter plugin to automatically register Flutter fonts on the native side of Android and iOS.
-version: 1.0.3
+version: 1.0.4
 homepage: https://dra11y.com
 repository: https://github.com/dra11y/accessible_text_view
 
