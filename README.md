@@ -1,8 +1,6 @@
 # native_flutter_fonts
 
-Currently iOS only. Android coming soon.
-
-Provides a font registry and resolver on the native side so that native code can resolve and use Flutter fonts.
+Provides a font registry and resolver on the native side (both Android and iOS) so that native code can resolve and use Flutter fonts.
 
 Automatically attempts to load all fonts from the Flutter font asset manifest, and stores them in a singleton instance so that they can be accessed.
 
@@ -40,7 +38,21 @@ end
 ...
 ```
 
-## Usage
+## Android Usage
+
+Kotlin:
+```kotlin
+import com.dra11y.flutter.native_flutter_fonts.FlutterFontRegistry
+...
+/// If "MaterialIcons" does not exist in the manifest, returns `null`.
+val iconTypeface: Typeface? = FlutterFontRegistry.resolveOrNull("MaterialIcons")
+
+/// If "My Font Family" does not exist in the manifest, returns the default Android typeface
+/// for the given weight and italic style.
+val myTextTypeface: Typeface = FlutterFontRegistry.resolve("My Font Family", weight = 600, isItalic = false)
+```
+
+## iOS Usage
 
 In your Swift file:
 ```swift

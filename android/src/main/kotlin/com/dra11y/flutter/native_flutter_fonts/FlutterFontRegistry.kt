@@ -53,8 +53,8 @@ class FlutterFontRegistry {
         private val registeredTypefaces = mutableMapOf<TypefaceKey, Typeface>()
 
         @JvmStatic
-        fun resolve(family: String?, weight: Int = 400, isItalic: Boolean = false) : Typeface =
-            resolveOrNull(family, weight, isItalic)
+        fun resolve(family: String?, weight: Int = 400, isItalic: Boolean = false, debug: Boolean = false) : Typeface =
+            resolveOrNull(family, weight, isItalic, debug)
                 ?: if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)
                     Typeface.create(
                         null,
@@ -68,7 +68,11 @@ class FlutterFontRegistry {
                 }
 
         @JvmStatic
-        fun resolveOrNull(family: String?, weight: Int = 400, isItalic: Boolean = false): Typeface? {
+        fun resolveOrNull(
+            family: String?,
+            weight: Int = 400,
+            isItalic: Boolean = false,
+            debug: Boolean = false): Typeface? {
             if (!isInitialized) {
                 error("FlutterFontRegistry has not been initialized!")
             }
@@ -80,10 +84,15 @@ class FlutterFontRegistry {
                     ?: registeredTypefaces[TypefaceKey(name, !isBold, !isItalic)]
             }
 
-            if (typeface != null) {
-                Log.d(TAG, "resolved font $family, weight = $weight, isItalic = $isItalic!")
-            } else {
-                Log.d(TAG, "failed to resolve font $family, weight = $weight, isItalic = $isItalic; registered typefaces = $registeredTypefaces")
+            if (debug) {
+                if (typeface != null) {
+                    Log.d(TAG, "resolved font $family, weight = $weight, isItalic = $isItalic!")
+                } else {
+                    Log.d(
+                        TAG,
+                        "failed to resolve font $family, weight = $weight, isItalic = $isItalic; registered typefaces = $registeredTypefaces"
+                    )
+                }
             }
 
             return typeface ?: Typeface.defaultFromStyle(when (listOf(isBold, isItalic)) {
