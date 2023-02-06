@@ -42,7 +42,7 @@ data class FontManifestEntry(
     )
 }
 
-data class TypefaceKey(val name: String, val isBold: Boolean, val isItalic: Boolean)
+data class TypefaceKey(val name: String, val weight: Int, val isBold: Boolean, val isItalic: Boolean)
 
 class FlutterFontRegistry {
     companion object {
@@ -78,14 +78,21 @@ class FlutterFontRegistry {
             }
 
             val isBold = weight >= 700
-            val typeface = family?.let { name -> (
-                registeredTypefaces[TypefaceKey(name, isBold, isItalic)]
-                    ?: registeredTypefaces[TypefaceKey(name, !isBold, isItalic)]
-                    ?: registeredTypefaces[TypefaceKey(name, !isBold, !isItalic)]
-                )
+            val typeface = family?.let { name ->
+                val byName = registeredTypefaces.filterKeys { key -> key.name == name }
+                    .ifEmpty { return@let null }
+
+                byName.filterKeys { it.weight == weight && it.isItalic == isItalic }
+                    .ifEmpty {
+                        byName.filterKeys { it.isBold == isBold && it.isItalic == isItalic }
+                    }
+                    .ifEmpty {
+                        byName.filterKeys { it.isItalic == isItalic }
+                    }
+                    .values.firstOrNull()
+            }
                 ?.withWeight(weight)
                 ?.withItalic(isItalic)
-            }
 
             if (debug) {
                 if (typeface != null) {
@@ -130,7 +137,13 @@ class FlutterFontRegistry {
                     val assetPath = binding.flutterAssets.getAssetFilePathByName(font.asset)
                     Log.e(TAG, assetPath)
                     Typeface.createFromAsset(assetManager, assetPath)?.let { typeface ->
-                        registeredTypefaces[TypefaceKey(family, typeface.isBold, typeface.isItalic)] = typeface
+                        val weight = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                            typeface.weight
+                        } else {
+                            font.weight ?: 400
+                        }
+                        val typefaceKey = TypefaceKey(family, weight = weight, isBold = typeface.isBold, isItalic = typeface.isItalic)
+                        registeredTypefaces[typefaceKey] = typeface
                     }
                 }
             }
