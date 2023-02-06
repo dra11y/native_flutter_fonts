@@ -1,3 +1,7 @@
+## 1.0.5
+
+* Fix weight handling in manifest registration.
+
 ## 1.0.4
 
 * Fix weight and italic resolution.
