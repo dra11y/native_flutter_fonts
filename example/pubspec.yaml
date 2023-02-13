@@ -20,7 +20,9 @@ dependencies:
   native_flutter_fonts:
     path: ../
   cupertino_icons: ^1.0.2
-  accessible_text_view: ^1.0.1
+  # accessible_text_view: ^1.0.1
+  # accessible_text_view:
+  #   path: /Users/tom/accessible_text_view
 
 dev_dependencies:
   flutter_test:

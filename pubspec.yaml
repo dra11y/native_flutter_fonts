@@ -25,3 +25,5 @@ flutter:
         pluginClass: NativeFlutterFontsPlugin
       ios:
         pluginClass: NativeFlutterFontsPlugin
+      macos:
+        pluginClass: NativeFlutterFontsPlugin
